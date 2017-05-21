@@ -1,4 +1,4 @@
-package ru_academit_range;
+package ru.academit.range;
 
 public class Range {
     private double from;
