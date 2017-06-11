@@ -1,5 +1,7 @@
 package ru.academit.range.Range;
 
+import java.util.ArrayList;
+
 public class Range {
 
     private double to;
@@ -33,52 +35,55 @@ public class Range {
         return to - from;
     }
 
-    public void print(Range interval) {
-        System.out.printf("%f, %f %n", interval.getFrom(), interval.getTo());
+    public void print() {
+        System.out.printf("%f, %f %n", this.getFrom(), this.getTo());
     }
 
-    public boolean isIntersection(Range firstInterval, Range secondInterval) {
-        return (secondInterval.from <= firstInterval.to && firstInterval.from <= secondInterval.to);
+    private boolean isIntersection(Range secondInterval) {
+        return (secondInterval.from <= this.to && this.from <= secondInterval.to);
     }
 
-    public Range getIntersection(Range firstInterval, Range secondInterval) {
+    public Range getIntersection(Range secondInterval) {
         Range intervalIntersection = new Range();
-        if (isIntersection(firstInterval, secondInterval)) {
-            intervalIntersection.from = Math.max(firstInterval.from, secondInterval.from);
-            intervalIntersection.to = Math.min(firstInterval.to, secondInterval.to);
+        if (isIntersection(secondInterval)) {
+            intervalIntersection.from = Math.max(this.from, secondInterval.from);
+            intervalIntersection.to = Math.min(this.to, secondInterval.to);
             return intervalIntersection;
         } else {
             return null;
         }
     }
 
-    public void getAssociation(Range firstInterval, Range secondInterval) {
-        Range intervalAssociation = new Range();
-        if (!isIntersection(firstInterval, secondInterval)) {
-            print(firstInterval);
-            print(secondInterval);
+    public ArrayList getAssociation(Range secondInterval) {
+        ArrayList<Range> list = new ArrayList<Range>();
+        if (!isIntersection(secondInterval)) {
+            list.add(this);
+            list.add(secondInterval);
         } else {
-            intervalAssociation.from = Math.min(firstInterval.from, secondInterval.from);
-            intervalAssociation.to = Math.max(firstInterval.to, secondInterval.to);
-            print(intervalAssociation);
+            this.from = Math.min(this.from, secondInterval.from);
+            this.to = Math.max(this.to, secondInterval.to);
+            list.add(this);
         }
+        return list;
     }
 
-    public void getDifference(Range firstInterval, Range secondInterval) {
+    public ArrayList getDifference(Range secondInterval) {
+        ArrayList<Range> list = new ArrayList<Range>();
         Range intervalDifference = new Range();
-        if (isIntersection(firstInterval, secondInterval)) {
-            intervalDifference.from = firstInterval.from;
+        if (isIntersection(secondInterval)) {
+            intervalDifference.from = this.from;
             intervalDifference.to = secondInterval.from;
-            print(intervalDifference);
-            if (firstInterval.to > secondInterval.to) {
+            list.add(intervalDifference);
+            if (this.to > secondInterval.to) {
                 intervalDifference.from = secondInterval.to;
-                intervalDifference.to = firstInterval.to;
-                print(intervalDifference);
+                intervalDifference.to = this.to;
+                list.add(intervalDifference);
             }
         }
-        if (!isIntersection(firstInterval, secondInterval)) {
-            print(firstInterval);
+        if (!isIntersection(secondInterval)) {
+            list.add(this);
         }
+        return list;
     }
 
 }
