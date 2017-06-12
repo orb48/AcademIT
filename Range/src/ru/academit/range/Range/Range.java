@@ -66,7 +66,7 @@ public class Range {
 
     public Range[] getDifference(Range secondInterval) {
         if (isIntersectionWithoutEnds(secondInterval)) {
-            if (this.from > secondInterval.from && this.to < secondInterval.to) {
+            if (this.from >= secondInterval.from && this.to <= secondInterval.to) {
                 return new Range[]{};
             } else if (this.from < secondInterval.from && secondInterval.to < this.to) {
                 return new Range[]{new Range(this.from, secondInterval.from), new Range(secondInterval.to, this.to)};
