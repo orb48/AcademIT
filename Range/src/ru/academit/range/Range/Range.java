@@ -53,46 +53,31 @@ public class Range {
     public Range getIntersection(Range secondInterval) {
         if (isIntersectionWithoutEnds(secondInterval)) {
             return new Range(Math.max(this.from, secondInterval.from), Math.min(this.to, secondInterval.to));
-        } else {
-            return null;
         }
+        return null;
     }
 
     public Range[] getAssociation(Range secondInterval) {
-        Range[] list;
         if (!isIntersectionWithEnds(secondInterval)) {
-            list = new Range[2];
-            list[0] = this.copy();
-            list[1] = secondInterval.copy();
-        } else {
-            list = new Range[1];
-            list[0] = new Range(Math.min(this.from, secondInterval.from), Math.max(this.to, secondInterval.to));
+            return new Range[]{this.copy(), secondInterval.copy()};
         }
-        return list;
+        return new Range[]{new Range(Math.min(this.from, secondInterval.from), Math.max(this.to, secondInterval.to))};
     }
 
     public Range[] getDifference(Range secondInterval) {
-        Range[] list;
         if (isIntersectionWithoutEnds(secondInterval)) {
             if (this.from > secondInterval.from && this.to < secondInterval.to) {
-                list = null;
+                return new Range[]{};
             } else if (this.from < secondInterval.from && secondInterval.to < this.to) {
-                list = new Range[2];
-                list[0] = new Range(this.from, secondInterval.from);
-                list[1] = new Range(secondInterval.to, this.to);
+                return new Range[]{new Range(this.from, secondInterval.from), new Range(secondInterval.to, this.to)};
             } else {
-                list = new Range[1];
                 if (this.from < secondInterval.from) {
-                    list[0] = new Range(this.from, secondInterval.from);
+                    return new Range[]{new Range(this.from, secondInterval.from)};
                 } else {
-                    list[0] = new Range(secondInterval.to, this.to);
+                    return new Range[]{new Range(secondInterval.to, this.to)};
                 }
             }
-        } else {
-            list = new Range[1];
-            list[0] = this.copy();
         }
-        return list;
+        return new Range[]{this.copy()};
     }
-
 }

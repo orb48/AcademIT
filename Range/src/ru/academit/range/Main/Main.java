@@ -4,8 +4,8 @@ import ru.academit.range.Range.Range;
 
 public class Main {
     public static void main(String[] args) {
-        Range first = new Range(1, 8);
-        Range second = new Range(0, 4);
+        Range first = new Range(1, 4);
+        Range second = new Range(3, 8);
         Range resultIntersection = first.getIntersection(second);
         if (resultIntersection != null) {
             System.out.printf("Интервал пересечения: %f, %f %n", resultIntersection.getFrom(), resultIntersection.getTo());
@@ -19,7 +19,7 @@ public class Main {
 
         System.out.print("Интервал разницы: ");
         Range[] resultDifference = first.getDifference(second);
-        if (resultDifference == null) {
+        if (resultDifference.length == 0) {
             System.out.println("Разница = 0");
         } else {
             for (Range e : resultDifference) {
