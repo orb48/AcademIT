@@ -6,15 +6,19 @@ public class Range {
 
     private double to;
     private double from;
-
-    public Range() {
-    }
+    public static final int COUNT_INTERVAL = 2;
 
     public Range(double from, double to) {
         this.to = to;
         this.from = from;
     }
-
+    public Range(Range copy) {
+        this.from = copy.from;
+        this.to = copy.to;
+    }
+    public Range copy() {
+        return new Range(this);
+    }
     public double getFrom() {
         return from;
     }
@@ -35,17 +39,19 @@ public class Range {
         return to - from;
     }
 
-    public void print() {
-        System.out.printf("%f, %f %n", this.getFrom(), this.getTo());
+
+
+    private boolean isIntersectionWithoutEnds(Range secondInterval) {
+        return (secondInterval.from < this.to && this.from < secondInterval.to);
     }
 
-    private boolean isIntersection(Range secondInterval) {
+    private boolean isIntersectionWithEnds(Range secondInterval) {
         return (secondInterval.from <= this.to && this.from <= secondInterval.to);
     }
 
     public Range getIntersection(Range secondInterval) {
-        Range intervalIntersection = new Range();
-        if (isIntersection(secondInterval)) {
+        Range intervalIntersection = this.copy();
+        if (isIntersectionWithoutEnds(secondInterval)) {
             intervalIntersection.from = Math.max(this.from, secondInterval.from);
             intervalIntersection.to = Math.min(this.to, secondInterval.to);
             return intervalIntersection;
@@ -54,34 +60,35 @@ public class Range {
         }
     }
 
-    public ArrayList getAssociation(Range secondInterval) {
-        ArrayList<Range> list = new ArrayList<Range>();
-        if (!isIntersection(secondInterval)) {
-            list.add(this);
-            list.add(secondInterval);
+    public Range[] getAssociation(Range secondInterval) {
+        Range[] list = new Range[COUNT_INTERVAL];;
+        Range intervalAssociation = this.copy();
+        if (!isIntersectionWithEnds(secondInterval)) {
+            list[0] = this.copy();
+            list[1] = secondInterval.copy();
         } else {
-            this.from = Math.min(this.from, secondInterval.from);
-            this.to = Math.max(this.to, secondInterval.to);
-            list.add(this);
+            intervalAssociation.from = Math.min(this.from, secondInterval.from);
+            intervalAssociation.to = Math.max(this.to, secondInterval.to);
+            list[0] = intervalAssociation;
         }
         return list;
     }
 
-    public ArrayList getDifference(Range secondInterval) {
-        ArrayList<Range> list = new ArrayList<Range>();
-        Range intervalDifference = new Range();
-        if (isIntersection(secondInterval)) {
+    public Range[] getDifference(Range secondInterval) {
+        Range[] list = new Range[COUNT_INTERVAL];
+        Range intervalDifference = this.copy();
+        if (isIntersectionWithoutEnds(secondInterval)) {
             intervalDifference.from = this.from;
             intervalDifference.to = secondInterval.from;
-            list.add(intervalDifference);
+            list[0] = intervalDifference;
             if (this.to > secondInterval.to) {
-                intervalDifference.from = secondInterval.to;
-                intervalDifference.to = this.to;
-                list.add(intervalDifference);
+                Range intervalDifferenceCopy = intervalDifference.copy();
+                intervalDifferenceCopy.from = secondInterval.to;
+                intervalDifferenceCopy.to = this.to;
+                list[1] = intervalDifferenceCopy;
             }
-        }
-        if (!isIntersection(secondInterval)) {
-            list.add(this);
+        } else {
+            list[0] = this.copy();
         }
         return list;
     }
