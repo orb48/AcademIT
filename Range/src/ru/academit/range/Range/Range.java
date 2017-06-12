@@ -12,13 +12,16 @@ public class Range {
         this.to = to;
         this.from = from;
     }
-    public Range(Range copy) {
+
+    private Range(Range copy) {
         this.from = copy.from;
         this.to = copy.to;
     }
-    public Range copy() {
+
+    private Range copy() {
         return new Range(this);
     }
+
     public double getFrom() {
         return from;
     }
@@ -38,9 +41,7 @@ public class Range {
     public double getLength() {
         return to - from;
     }
-
-
-
+    
     private boolean isIntersectionWithoutEnds(Range secondInterval) {
         return (secondInterval.from < this.to && this.from < secondInterval.to);
     }
@@ -61,7 +62,8 @@ public class Range {
     }
 
     public Range[] getAssociation(Range secondInterval) {
-        Range[] list = new Range[COUNT_INTERVAL];;
+        Range[] list = new Range[COUNT_INTERVAL];
+        ;
         Range intervalAssociation = this.copy();
         if (!isIntersectionWithEnds(secondInterval)) {
             list[0] = this.copy();
