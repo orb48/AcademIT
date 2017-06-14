@@ -2,6 +2,8 @@ package ru.academit.shapes.Main;
 
 import ru.academit.shapes.Shapes.*;
 
+import java.util.Arrays;
+
 public class Main {
 
     public static Shapes findShapeWithMaxArea(Shapes[] list) {
@@ -17,23 +19,8 @@ public class Main {
     }
 
     public static Shapes findShapesWithSecondPerimeter(Shapes[] list) {
-        double max1 = list[0].getPerimeter();
-        double max2 = list[1].getPerimeter();
-        int indexMax1 = 0;
-        int indexMax2 = 1;
-        for (int i = 1; i < list.length; ++i) {
-            double perimeter = list[i].getPerimeter();
-            if (perimeter > max1) {
-                max2 = max1;
-                max1 = perimeter;
-                indexMax2 = indexMax1;
-                indexMax1 = i;
-            } else if (perimeter > max2) {
-                max2 = perimeter;
-                indexMax2 = i;
-            }
-        }
-        return list[indexMax2];
+        Arrays.sort(list, Shapes.PerimeterComparator);
+        return list[list.length - 2];
     }
 
     public static void main(String[] args) {
@@ -54,6 +41,5 @@ public class Main {
         System.out.println("Фигура с максимальной площадью: " + findShapeWithMaxArea(list));
 
         System.out.println("Фигура с вторым по величине периметром: " + findShapesWithSecondPerimeter(list));
-
     }
 }

@@ -1,28 +1,28 @@
 package ru.academit.shapes.Shapes;
 
 public class Rectangle implements Shapes {
-    private double side1;
-    private double side2;
+    private double width;
+    private double height;
 
-    public Rectangle(double side1, double side2) {
-        this.side1 = side1;
-        this.side2 = side2;
+    public Rectangle(double width, double height) {
+        this.width = width;
+        this.height = height;
     }
 
     public double getWidth() {
-        return side2;
+        return width;
     }
 
     public double getHeight() {
-        return side1;
+        return height;
     }
 
     public double getArea() {
-        return side1 * side2;
+        return width * height;
     }
 
     public double getPerimeter() {
-        return 2 * (side1 + side2);
+        return 2 * (width + height);
     }
 
     public boolean equals(Object o) {
@@ -33,18 +33,18 @@ public class Rectangle implements Shapes {
             return false;
         }
         Rectangle rectangle = (Rectangle) o;
-        return side1 == rectangle.side1 && side2 == rectangle.side2;
+        return width == rectangle.width && height == rectangle.height;
     }
 
     public String toString() {
-        return "Прямоугольник со сторонами " + side1 + ", " + side2;
+        return "Прямоугольник со сторонами " + width + ", " + height;
     }
 
     public int hashCode() {
         final int prime = 31;
         int hash = 1;
-        hash = prime * hash + (int) side1;
-        hash = prime * hash + (int) side2;
+        hash = prime * hash + (int) width;
+        hash = prime * hash + (int) height;
         return hash;
     }
 }
