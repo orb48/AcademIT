@@ -26,15 +26,15 @@ public class Triangle implements Shapes {
     }
 
     public double getArea() {
-        return (1 / 2) * ((x1 - x3) * (y2 - y3) - (x2 - x3) * (y1 - y3));
+        return (1 / 2) * Math.abs((x1 - x3) * (y2 - y3) - (x2 - x3) * (y1 - y3));
     }
 
-    private double getLengthLine(double x1, double x2) {
+    private double getLengthLine(double x1, double y1, double x2, double y2) {
         return Math.sqrt((x2 - x1) * (x2 - x1) + (y2 - y1) * (y2 - y1));
     }
 
     public double getPerimeter() {
-        return (getLengthLine(x1, x2) + getLengthLine(x2, x3) + getLengthLine(x3, x1));
+        return (getLengthLine(x1, y1, x2, y2) + getLengthLine(x2, y2, x3, y3) + getLengthLine(x3, y3, x1, y1));
     }
 
     public boolean equals(Object o) {

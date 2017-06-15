@@ -19,24 +19,15 @@ public class Main {
     }
 
     public static Shapes findShapesWithSecondPerimeter(Shapes[] list) {
-        Arrays.sort(list, Shapes.PerimeterComparator);
+        Arrays.sort(list, new ShapesComparator());
         return list[list.length - 2];
     }
 
     public static void main(String[] args) {
 
-        final int COUNT_SHAPES = 8;
-
-        Shapes[] list = new Shapes[COUNT_SHAPES];
-
-        list[0] = new Square(3);
-        list[1] = new Square(7);
-        list[2] = new Triangle(2, 1, 4, 3, 5, 7);
-        list[3] = new Triangle(1, 2, 7, 3, 5, 4);
-        list[4] = new Rectangle(2, 5);
-        list[5] = new Rectangle(1, 3);
-        list[6] = new Circle(3);
-        list[7] = new Circle(2);
+        Shapes[] list = new Shapes[]{new Square(3), new Square(7),
+                new Triangle(2, 1, 4, 3, 5, 7), new Triangle(1, 2, 7, 3, 5, 4),
+                new Rectangle(2, 5), new Rectangle(1, 3), new Circle(3), new Circle(2)};
 
         System.out.println("Фигура с максимальной площадью: " + findShapeWithMaxArea(list));
 
