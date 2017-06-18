@@ -1,5 +1,7 @@
 package ru.academit.vector;
 
+import java.util.Arrays;
+
 public class Vector {
     private double[] coordinates;
     private int size;
@@ -33,6 +35,14 @@ public class Vector {
                 this.coordinates[i] = 0;
             }
         }
+    }
+
+    public int getSize() {
+        return coordinates.length;
+    }
+
+    public String toString() {
+        return "Координаты вектора: ";
     }
 
 }

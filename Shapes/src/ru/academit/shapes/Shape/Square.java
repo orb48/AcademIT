@@ -1,8 +1,6 @@
-package ru.academit.shapes.Shapes;
+package ru.academit.shapes.Shape;
 
-import java.util.Objects;
-
-public class Square implements Shapes {
+public class Square implements Shape {
     private double sideLength;
 
     public Square(double sideLength) {

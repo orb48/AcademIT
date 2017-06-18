@@ -1,6 +1,6 @@
-package ru.academit.shapes.Shapes;
+package ru.academit.shapes.Shape;
 
-public class Circle implements Shapes {
+public class Circle implements Shape {
     private double radius;
 
     public Circle(double radius) {

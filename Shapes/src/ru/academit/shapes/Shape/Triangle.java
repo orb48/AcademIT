@@ -1,6 +1,6 @@
-package ru.academit.shapes.Shapes;
+package ru.academit.shapes.Shape;
 
-public class Triangle implements Shapes {
+public class Triangle implements Shape {
     private double x1;
     private double y1;
     private double x2;
@@ -26,11 +26,20 @@ public class Triangle implements Shapes {
     }
 
     public double getArea() {
-        return (1 / 2) * Math.abs((x1 - x3) * (y2 - y3) - (x2 - x3) * (y1 - y3));
+        double epsilon = 1.0e-10;
+        if (Math.abs((x2 - x1) * (y3 - y1) - (x3 - x1) * (y2 - y1)) <= epsilon) {
+            System.out.println("Точки лежат на одной прямой");
+            return 0;
+        } else {
+            double semiperimeter = getPerimeter() / 2;
+            return Math.sqrt(semiperimeter * (semiperimeter - getLengthLine(x1, y1, x2, y2)) * (semiperimeter - getLengthLine(x2, y2, x3, y3)) *
+                    (semiperimeter - getLengthLine(x3, y3, x1, y1)));
+
+        }
     }
 
     private double getLengthLine(double x1, double y1, double x2, double y2) {
-        return Math.sqrt((x2 - x1) * (x2 - x1) + (y2 - y1) * (y2 - y1));
+        return Math.sqrt(Math.pow((x2 - x1), 2) + Math.pow((y2 - y1), 2));
     }
 
     public double getPerimeter() {

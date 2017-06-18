@@ -1,8 +1,6 @@
-package ru.academit.shapes.Shapes;
+package ru.academit.shapes.Shape;
 
-import java.util.Comparator;
-
-public interface Shapes {
+public interface Shape {
     double getWidth();
 
     double getHeight();

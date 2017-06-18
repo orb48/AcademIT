@@ -1,6 +1,6 @@
-package ru.academit.shapes.Shapes;
+package ru.academit.shapes.Shape;
 
-public class Rectangle implements Shapes {
+public class Rectangle implements Shape {
     private double width;
     private double height;
 
