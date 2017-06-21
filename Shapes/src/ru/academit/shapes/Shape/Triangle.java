@@ -26,24 +26,17 @@ public class Triangle implements Shape {
     }
 
     public double getArea() {
-        double epsilon = 1.0e-10;
-        if (Math.abs((x2 - x1) * (y3 - y1) - (x3 - x1) * (y2 - y1)) <= epsilon) {
-            System.out.println("Точки лежат на одной прямой");
-            return 0;
-        } else {
-            double semiperimeter = getPerimeter() / 2;
-            return Math.sqrt(semiperimeter * (semiperimeter - getLengthLine(x1, y1, x2, y2)) * (semiperimeter - getLengthLine(x2, y2, x3, y3)) *
-                    (semiperimeter - getLengthLine(x3, y3, x1, y1)));
-
-        }
+            double semiPerimeter = getPerimeter() / 2;
+            return Math.sqrt(semiPerimeter * (semiPerimeter - getLineLength(x1, y1, x2, y2)) * (semiPerimeter - getLineLength(x2, y2, x3, y3)) *
+                    (semiPerimeter - getLineLength(x3, y3, x1, y1)));
     }
 
-    private double getLengthLine(double x1, double y1, double x2, double y2) {
+    private static double getLineLength(double x1, double y1, double x2, double y2) {
         return Math.sqrt(Math.pow((x2 - x1), 2) + Math.pow((y2 - y1), 2));
     }
 
     public double getPerimeter() {
-        return (getLengthLine(x1, y1, x2, y2) + getLengthLine(x2, y2, x3, y3) + getLengthLine(x3, y3, x1, y1));
+        return (getLineLength(x1, y1, x2, y2) + getLineLength(x2, y2, x3, y3) + getLineLength(x3, y3, x1, y1));
     }
 
     public boolean equals(Object o) {
