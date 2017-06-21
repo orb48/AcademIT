@@ -1,12 +1,11 @@
-package ru.academit.vector;
-
-import java.util.Arrays;
+package Main;
 
 public class Vector {
     private double[] coordinates;
     private int size;
 
     public Vector(int size) {
+        this.coordinates = new double[size];
         if (size <= 0) throw new IllegalArgumentException("Размерность вектора = 0 или отрицательна");
         for (int i = 0; i < size; ++i) {
             coordinates[i] = 0;
@@ -14,18 +13,21 @@ public class Vector {
     }
 
     public Vector(Vector copy) {
-        for (int i = 0; i < size; ++i) {
+        this.coordinates = new double[copy.getSize()];
+        for (int i = 0; i < copy.getSize(); ++i) {
             this.coordinates[i] = copy.coordinates[i];
         }
     }
 
     public Vector(double[] coordinates) {
-        for (int i = 0; i < size; ++i) {
+        this.coordinates = new double[coordinates.length];
+        for (int i = 0; i < coordinates.length; ++i) {
             this.coordinates[i] = coordinates[i];
         }
     }
 
     public Vector(int size, double[] coordinates) {
+        this.coordinates = new double[size];
         if (size <= 0) throw new IllegalArgumentException("Размерность вектора = 0 или отрицательна");
         for (int i = 0; i < coordinates.length; ++i) {
             this.coordinates[i] = coordinates[i];
@@ -42,7 +44,19 @@ public class Vector {
     }
 
     public String toString() {
-        return "Координаты вектора: ";
+        StringBuilder sb = new StringBuilder("{");
+        for (int i = 0; i < getSize() - 1; ++i) {
+            sb.append(coordinates[i]);
+            sb.append(", ");
+        }
+        sb.append(coordinates[getSize() - 1]);
+        sb.append("}");
+        return sb.toString();
+    }
+
+    public Vector additionToVector (Vector second) {
+
+        return this;
     }
 
 }
