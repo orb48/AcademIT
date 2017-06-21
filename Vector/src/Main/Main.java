@@ -11,7 +11,7 @@ public class Main {
         Vector coordinatesCopy = new Vector(coordinates);
         System.out.println("Копия: " + coordinatesCopy.getSize());
         System.out.println(coordinatesCopy.toString());
-
+        
         Vector coordinates2 = new Vector(6, new double[]{6, 2, 13, 5, 1});
         System.out.println("Вектор 2: " + coordinates2.getSize());
         System.out.println(coordinates2.toString());
