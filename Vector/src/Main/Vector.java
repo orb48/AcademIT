@@ -57,7 +57,7 @@ public class Vector {
     }
 
     //сумма векторов
-    public Vector vectorsSum (Vector second) {
+    public Vector vectorsSum(Vector second) {
         if (this.getSize() > second.getSize()) {
             Vector vectorSum = new Vector(this);
             for (int i = 0; i < second.getSize(); ++i) {
@@ -86,7 +86,4 @@ public class Vector {
         }
         return resultSum;
     }
-
-    //разность векторов
-
 }
