@@ -1,5 +1,7 @@
 package Main;
 
+import java.util.Arrays;
+
 public class Vector {
     private double[] coordinates;
     private int size;
@@ -54,9 +56,37 @@ public class Vector {
         return sb.toString();
     }
 
-    public Vector additionToVector (Vector second) {
-
-        return this;
+    //сумма векторов
+    public Vector vectorsSum (Vector second) {
+        if (this.getSize() > second.getSize()) {
+            Vector vectorSum = new Vector(this);
+            for (int i = 0; i < second.getSize(); ++i) {
+                vectorSum.coordinates[i] += second.coordinates[i];
+            }
+            return vectorSum;
+        }
+        Vector vectorSum = new Vector(second);
+        for (int i = 0; i < this.getSize(); ++i) {
+            vectorSum.coordinates[i] += this.coordinates[i];
+        }
+        return vectorSum;
     }
+
+    public static double[] vectorsSum(double[] first, double[] second) {
+        if (first.length > second.length) {
+            double[] resultSum = Arrays.copyOf(first, first.length);
+            for (int i = 0; i < second.length; ++i) {
+                resultSum[i] += second[i];
+            }
+            return resultSum;
+        }
+        double[] resultSum = Arrays.copyOf(second, second.length);
+        for (int i = 0; i < first.length; ++i) {
+            resultSum[i] += first[i];
+        }
+        return resultSum;
+    }
+
+    //разность векторов
 
 }

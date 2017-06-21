@@ -31,7 +31,7 @@ public class ArrayListTask {
         ArrayList<Integer> listIntNew = new java.util.ArrayList<>(Arrays.asList(1, 1, 2, 5, 7, 8, 2, 8));
         ArrayList<Integer> listWithoutRepetitions = new java.util.ArrayList<>();
         for (Integer e : listIntNew) {
-            if (listWithoutRepetitions.indexOf(e) == -1) {
+            if (!listWithoutRepetitions.contains(e)) {
                 listWithoutRepetitions.add(e);
             }
         }
