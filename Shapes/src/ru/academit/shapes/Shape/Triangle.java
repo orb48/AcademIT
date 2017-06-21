@@ -26,9 +26,9 @@ public class Triangle implements Shape {
     }
 
     public double getArea() {
-            double semiPerimeter = getPerimeter() / 2;
-            return Math.sqrt(semiPerimeter * (semiPerimeter - getLineLength(x1, y1, x2, y2)) * (semiPerimeter - getLineLength(x2, y2, x3, y3)) *
-                    (semiPerimeter - getLineLength(x3, y3, x1, y1)));
+        double semiPerimeter = getPerimeter() / 2;
+        return Math.sqrt(semiPerimeter * (semiPerimeter - getLineLength(x1, y1, x2, y2)) * (semiPerimeter - getLineLength(x2, y2, x3, y3)) *
+                (semiPerimeter - getLineLength(x3, y3, x1, y1)));
     }
 
     private static double getLineLength(double x1, double y1, double x2, double y2) {
