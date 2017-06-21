@@ -14,9 +14,9 @@ public class ArrayListTask {
             while (scanner.hasNextLine()) {
                 list.add(scanner.nextLine());
             }
-            System.out.println(list.toString());
+            System.out.println(list);
         }
-        
+
         // задача 2
         ArrayList<Integer> listInt = new java.util.ArrayList<>(Arrays.asList(1, 2, 5, 7, 8));
 
@@ -25,18 +25,16 @@ public class ArrayListTask {
                 listInt.remove(i);
             }
         }
-        System.out.println(listInt.toString());
+        System.out.println(listInt);
 
         //задача 3
         ArrayList<Integer> listIntNew = new java.util.ArrayList<>(Arrays.asList(1, 1, 2, 5, 7, 8, 2, 8));
-        ArrayList<Integer> listWithoutRepetitions = new java.util.ArrayList<>(listIntNew);
-
-        for (int i = 0; i < listWithoutRepetitions.size(); ++i) {
-            if (listWithoutRepetitions.indexOf(listWithoutRepetitions.get(i)) != listWithoutRepetitions.lastIndexOf(listWithoutRepetitions.get(i))) {
-                listWithoutRepetitions.remove(listWithoutRepetitions.lastIndexOf(listWithoutRepetitions.get(i)));
+        ArrayList<Integer> listWithoutRepetitions = new java.util.ArrayList<>();
+        for (Integer e : listIntNew) {
+            if (listWithoutRepetitions.indexOf(e) == -1) {
+                listWithoutRepetitions.add(e);
             }
         }
-        System.out.println(listWithoutRepetitions.toString());
-
+        System.out.println(listWithoutRepetitions);
     }
 }
