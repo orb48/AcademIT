@@ -133,11 +133,6 @@ public class Vector {
 
     @Override
     public int hashCode() {
-        final int prime = 31;
-        int hash = 1;
-        for (double e : this.coordinates) {
-            hash = prime * hash + (int) e;
-        }
-        return hash;
+        return Arrays.hashCode(this.coordinates);
     }
 }
