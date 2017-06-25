@@ -14,26 +14,29 @@ public class Main {
         System.out.println("Вектор 2: " + coordinates2.toString());
 
         //сумма векторов
-        System.out.println("Сумма векторов: " + coordinates.vectorsSum(coordinates2));
-        System.out.println("Сумма других векторов" + Vector.vectorsSumStatic(coordinates, coordinates2));
+        System.out.println("Сумма векторов: " + coordinates.add(coordinates2));
+        System.out.println("Сумма других векторов" + Vector.add(coordinates, coordinates2));
 
         //разность векторов
-        System.out.println("Разность векторов: " + coordinates2.vectorsDifference(coordinates));
-        System.out.println("Разность векторов: " + Vector.vectorsDifferenceStatic(coordinates, coordinates2));
+        System.out.println("Разность векторов: " + coordinates2.getDifference(coordinates));
+        System.out.println("Разность векторов: " + Vector.getDifference(coordinates, coordinates2));
 
         //Скалярное произведение
-        System.out.println("Скалярное произведение: " + Vector.vectorsScalarProduct(coordinates, coordinates2));
+        System.out.println("Скалярное произведение: " + Vector.scalarProduct(coordinates, coordinates2));
 
         //Умножение на скаляр
         System.out.println("Умножение на скаляр: " + coordinates.multiplyScalar(2));
-        System.out.println("Развернутый вектор: " + coordinates.expandVector());
+        System.out.println("Развернутый вектор: " + coordinates.expand());
 
         //Длина вектора
         Vector coordinates3 = new Vector(new double[]{1.0, 2.0, 1.0});
-        System.out.println("Длина вектора: " + coordinates3.getLengthVector());
+        System.out.println("Длина вектора: " + coordinates3.getLength());
 
         //Получение и установка компоненты вектора по индексу
-        System.out.println("Компонента вектора: " + coordinates3.getVectorComponents(2));
+        System.out.println("Компонента вектора: " + coordinates3.getComponent(2));
 
+        Vector coordinates4 = new Vector(new double[]{1.0, 2.0, 1.0});
+        coordinates4.setComponent(2, 13);
+        System.out.println(coordinates4);
     }
 }

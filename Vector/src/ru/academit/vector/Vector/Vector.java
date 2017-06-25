@@ -18,11 +18,16 @@ public class Vector {
     }
 
     public Vector(double[] coordinates) {
+        if (coordinates.length == 0) {
+            throw new IllegalArgumentException("Вектор не задан");
+        }
         this.coordinates = Arrays.copyOf(coordinates, coordinates.length);
     }
 
     public Vector(int size, double[] coordinates) {
-        if (size <= 0) throw new IllegalArgumentException("Размерность вектора = 0 или отрицательна");
+        if (size <= 0) {
+            throw new IllegalArgumentException("Размерность вектора = 0 или отрицательна");
+        }
         this.coordinates = Arrays.copyOf(coordinates, size);
     }
 
@@ -42,51 +47,42 @@ public class Vector {
     }
 
     //сумма векторов
-    public Vector vectorsSum(Vector second) {
-        if (this.getSize() > second.getSize()) {
-            for (int i = 0; i < second.getSize(); ++i) {
-                this.coordinates[i] += second.coordinates[i];
-            }
-            return this;
+    public Vector add(Vector second) {
+        if (this.getSize() < second.getSize()) {
+            this.coordinates = Arrays.copyOf(this.coordinates, second.getSize());
         }
-        this.coordinates = Arrays.copyOf(this.coordinates, second.getSize());
         for (int i = 0; i < second.getSize(); ++i) {
             this.coordinates[i] += second.coordinates[i];
         }
         return this;
     }
 
-    public static Vector vectorsSumStatic(Vector first, Vector second) {
-        Vector sum = new Vector(first.getSize());
-        sum.coordinates = Arrays.copyOf(first.coordinates, first.getSize());
-        return sum.vectorsSum(second);
+    public static Vector add(Vector first, Vector second) {
+        Vector sum = new Vector(first);
+        return sum.add(second);
     }
 
     //разность векторов
-    public Vector vectorsDifference(Vector second) {
-        if (this.getSize() > second.getSize()) {
-            for (int i = 0; i < second.getSize(); ++i) {
-                this.coordinates[i] -= second.coordinates[i];
-            }
-            return this;
+    public Vector getDifference(Vector second) {
+        if (this.getSize() < second.getSize()) {
+            this.coordinates = Arrays.copyOf(this.coordinates, second.getSize());
         }
-        this.coordinates = Arrays.copyOf(this.coordinates, second.getSize());
         for (int i = 0; i < second.getSize(); ++i) {
             this.coordinates[i] -= second.coordinates[i];
         }
         return this;
     }
 
-    public static Vector vectorsDifferenceStatic(Vector first, Vector second) {
-        Vector difference = new Vector(first.getSize());
-        difference.coordinates = Arrays.copyOf(first.coordinates, first.getSize());
-        return difference.vectorsDifference(second);
+    public static Vector getDifference(Vector first, Vector second) {
+        Vector difference = new Vector(first);
+        return difference.getDifference(second);
     }
 
     //Скалярное произведение
-    public static double vectorsScalarProduct(Vector first, Vector second) {
+    public static double scalarProduct(Vector first, Vector second) {
         double result = 0;
-        for (int i = 0; i < Math.min(first.getSize(), second.getSize()); ++i) {
+        int length = Math.min(first.getSize(), second.getSize());
+        for (int i = 0; i < length; ++i) {
             result += first.coordinates[i] * second.coordinates[i];
         }
         return result;
@@ -101,12 +97,12 @@ public class Vector {
     }
 
     //Разворот вектора
-    public Vector expandVector() {
+    public Vector expand() {
         return this.multiplyScalar(-1);
     }
 
     //Длина вектора
-    public double getLengthVector() {
+    public double getLength() {
         double sum = 0;
         for (int i = 0; i < this.getSize(); ++i) {
             sum += Math.pow(coordinates[i], 2);
@@ -115,11 +111,12 @@ public class Vector {
     }
 
     //Получение и установка компоненты вектора по индексу
-    public double getVectorComponents(int number) {
-        if (number >= this.getSize()) {
-            throw new IllegalArgumentException("Такой компоненты нет");
-        }
-        return this.coordinates[number - 1];
+    public double getComponent(int number) {
+        return this.coordinates[number];
+    }
+
+    public void setComponent(int number, double newComponent) {
+        this.coordinates[number] = newComponent;
     }
 
     @Override
@@ -130,7 +127,8 @@ public class Vector {
         if (o == null || o.getClass() != this.getClass()) {
             return false;
         }
-        return (this.getSize() == ((Vector) o).getSize() && Arrays.equals(this.coordinates, ((Vector) o).coordinates));
+        Vector vector = (Vector) o;
+        return (this.getSize() == vector.getSize() && Arrays.equals(this.coordinates, vector.coordinates));
     }
 
     @Override
