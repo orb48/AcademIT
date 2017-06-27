@@ -1,4 +1,4 @@
-package ru.academit.vector.Vector;
+package ru.academit.matrix.Vector;
 
 import java.util.Arrays;
 
