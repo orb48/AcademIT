@@ -2,7 +2,6 @@ package ru.academit.matrix.Matrix;
 
 import ru.academit.vector.Vector.Vector;
 
-import java.awt.image.AreaAveragingScaleFilter;
 import java.util.Arrays;
 
 public class Matrix {
