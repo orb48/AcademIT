@@ -35,8 +35,11 @@ public class Main {
 
         System.out.println("Умножить на скаляр: " + matrix5.multiplyScalar(2));
 
-        double[][] array11 = {{4, 1, 0, 3}, {4, 0, 2, 1}, {1, 0, 0, 7}, {0, 1, 3, 2}};
+        double[][] array11 = {{4, 0, 0, 3}, {4, 0, 2, 1}, {0, 0, 1, 0}, {0, 0, 3, 2}};
         Matrix matrix22 = new Matrix(array11);
         System.out.println("Определитель = " + matrix22.calculateDeterminate());
+
+        System.out.println(matrix3);
+        System.out.println(matrix3.multiplyVector(new Vector(new double[] {1, 2, 3, 5})));
     }
 }

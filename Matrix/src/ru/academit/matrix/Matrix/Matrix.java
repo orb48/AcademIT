@@ -1,9 +1,6 @@
 package ru.academit.matrix.Matrix;
 
-import com.sun.xml.internal.bind.v2.TODO;
 import ru.academit.vector.Vector.Vector;
-
-import java.util.Arrays;
 
 public class Matrix {
     private Vector[] rows;
@@ -43,23 +40,23 @@ public class Matrix {
             throw new IllegalArgumentException("Количество уравнений или неизвестных = 0 или отрицательное число");
         }
         this.rows = new Vector[vectors.length];
-        for (int i = 0; i < numberRows(); ++i) {
+        for (int i = 0; i < getNumberRows(); ++i) {
             this.rows[i] = new Vector(vectors[i]);
         }
     }
 
     public Matrix(Matrix copy) {
-        this.rows = new Vector[copy.numberRows()];
-        for (int i = 0; i < numberRows(); ++i) {
+        this.rows = new Vector[copy.getNumberRows()];
+        for (int i = 0; i < getNumberRows(); ++i) {
             this.rows[i] = new Vector(copy.rows[i]);
         }
     }
 
-    public int numberRows() {
+    public int getNumberRows() {
         return rows.length;
     }
 
-    public int numberColumn() {
+    public int getNumberColumn() {
         return rows[0].getSize();
     }
 
@@ -68,22 +65,23 @@ public class Matrix {
     }
 
     public void setRow(int index, Vector newVector) {
-        if (newVector.getSize() != numberColumn()) {
+        if (newVector.getSize() != getNumberColumn()) {
             throw new IllegalArgumentException("Новый вектор другой длины");
         }
         rows[index] = new Vector(newVector);
     }
 
     public Vector getColumn(int index) {
-        Vector newColumn = new Vector(numberRows());
-        for (int i = 0; i < numberRows(); ++i) {
+        Vector newColumn = new Vector(getNumberRows());
+        for (int i = 0; i < getNumberRows(); ++i) {
             newColumn.setComponent(i, rows[i].getComponent(index));
         }
         return newColumn;
     }
 
+    //Транспонировать матрицу
     public Matrix transpose() {
-        int m = this.numberColumn();
+        int m = this.getNumberColumn();
         Vector[] newArrayRow = new Vector[m];
         for (int i = 0; i < m; ++i) {
             newArrayRow[i] = this.getColumn(i);
@@ -92,6 +90,7 @@ public class Matrix {
         return this;
     }
 
+    //Умножить на скаляр
     public Matrix multiplyScalar(double scalar) {
         for (Vector e : rows) {
             e.multiplyScalar(scalar);
@@ -99,23 +98,25 @@ public class Matrix {
         return this;
     }
 
+    //Преобразование в строку
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder("{");
-        for (int i = 0; i < numberRows() - 1; ++i) {
+        for (int i = 0; i < getNumberRows() - 1; ++i) {
             sb.append(rows[i].toString());
             sb.append(", ");
         }
-        sb.append(rows[numberRows() - 1]);
+        sb.append(rows[getNumberRows() - 1]);
         sb.append("}");
         return sb.toString();
     }
 
-    private double indexMaxValue(int indexColumn) {
-        Vector column = new Vector(getColumn(indexColumn));
+    //Вспомогательный метод, найти индекс максимального элемента в столбце
+    private double getIndexMaxValue(int indexColumn) {
+        Vector column = getColumn(indexColumn);
         double maxValue = Math.abs(column.getComponent(0));
         int index = 0;
-        for (int i = indexColumn; i < numberRows(); ++i) {
+        for (int i = indexColumn; i < getNumberRows(); ++i) {
             if (Math.abs(column.getComponent(i)) > maxValue) {
                 maxValue = Math.abs(column.getComponent(i));
                 index = i;
@@ -124,28 +125,50 @@ public class Matrix {
         return index;
     }
 
+    //Посчитать определитель
     public double calculateDeterminate() {
+        Matrix matrix = new Matrix(this);
         double determinate = 1;
-        if (numberRows() != numberColumn()) {
+        if (matrix.getNumberRows() != matrix.getNumberColumn()) {
             throw new IllegalArgumentException("Определителя не существует");
         }
-        for (int i = 0; i < numberColumn() - 1; ++i) {
-            for (int j = i + 1; j < numberRows(); ++j) {
-                if (this.indexMaxValue(i) != i) {
-                    Vector vector = rows[i];
-                    rows[i] = new Vector(rows[j]);
-                    rows[j] = new Vector(vector);
+        for (int i = 0; i < matrix.getNumberColumn() - 1; ++i) {
+            for (int j = i + 1; j < matrix.getNumberRows(); ++j) {
+                if (matrix.getIndexMaxValue(i) != i) {
+                    Vector vector = matrix.rows[i];
+                    matrix.rows[i] = new Vector(matrix.rows[j]);
+                    matrix.rows[j] = new Vector(vector);
                 }
-                double number = rows[j].getComponent(i) / rows[i].getComponent(i);
-                for (int k = i; k < numberColumn(); ++k) {
-                    rows[j].setComponent(k, rows[j].getComponent(k) -
-                            rows[i].getComponent(k) * number);
+                double number = matrix.rows[j].getComponent(i) / matrix.rows[i].getComponent(i);
+                for (int k = i; k < matrix.getNumberColumn(); ++k) {
+                    matrix.rows[j].setComponent(k, matrix.rows[j].getComponent(k) -
+                            matrix.rows[i].getComponent(k) * number);
                 }
             }
+            if (matrix.rows[i].getComponent(i) == 0) {
+                return 0;
+            }
         }
-        for (int i = 0; i < numberColumn(); ++i) {
-            determinate *= rows[i].getComponent(i);
+        for (int i = 0; i < matrix.getNumberColumn(); ++i) {
+            determinate *= matrix.rows[i].getComponent(i);
         }
         return determinate;
     }
+
+    //Умножение матрицы на вектор
+    public Vector multiplyVector(Vector vector) {
+        if (getNumberColumn() != vector.getSize()) {
+            throw new IllegalArgumentException("Размерность вектора должна совпадать с количеством столбцов матрицы");
+        }
+        Vector result = new Vector(getNumberRows());
+        double sumComponentsRow = 0;
+        for (int i = 0; i < getNumberRows(); ++i) {
+            for (int j = 0; j < getNumberColumn(); ++j) {
+                sumComponentsRow += rows[i].getComponent(j) * vector.getComponent(j);
+            }
+            result.setComponent(i, sumComponentsRow);
+        }
+        return result;
+    }
+
 }
