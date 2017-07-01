@@ -112,10 +112,10 @@ public class Matrix {
     }
 
     //Вспомогательный метод, найти индекс максимального элемента в столбце
-    private double getIndexMaxValue(int indexColumn) {
+    private int getIndexMaxValue(int indexColumn) {
         Vector column = getColumn(indexColumn);
-        double maxValue = Math.abs(column.getComponent(0));
-        int index = 0;
+        double maxValue = Math.abs(column.getComponent(indexColumn));
+        int index = indexColumn;
         for (int i = indexColumn; i < getNumberRows(); ++i) {
             if (Math.abs(column.getComponent(i)) > maxValue) {
                 maxValue = Math.abs(column.getComponent(i));
@@ -132,12 +132,14 @@ public class Matrix {
         if (matrix.getNumberRows() != matrix.getNumberColumn()) {
             throw new IllegalArgumentException("Определителя не существует");
         }
+        int numberPermutationsRows = 0;
         for (int i = 0; i < matrix.getNumberColumn() - 1; ++i) {
             for (int j = i + 1; j < matrix.getNumberRows(); ++j) {
                 if (matrix.getIndexMaxValue(i) != i) {
                     Vector vector = matrix.rows[i];
-                    matrix.rows[i] = new Vector(matrix.rows[j]);
-                    matrix.rows[j] = new Vector(vector);
+                    matrix.rows[i] = matrix.rows[j];
+                    matrix.rows[j] = vector;
+                    ++numberPermutationsRows;
                 }
                 double number = matrix.rows[j].getComponent(i) / matrix.rows[i].getComponent(i);
                 for (int k = i; k < matrix.getNumberColumn(); ++k) {
@@ -152,6 +154,9 @@ public class Matrix {
         for (int i = 0; i < matrix.getNumberColumn(); ++i) {
             determinate *= matrix.rows[i].getComponent(i);
         }
+        if (numberPermutationsRows % 2 != 0) {
+            return -determinate;
+        }
         return determinate;
     }
 
@@ -161,8 +166,8 @@ public class Matrix {
             throw new IllegalArgumentException("Размерность вектора должна совпадать с количеством столбцов матрицы");
         }
         Vector result = new Vector(getNumberRows());
-        double sumComponentsRow = 0;
         for (int i = 0; i < getNumberRows(); ++i) {
+            double sumComponentsRow = 0;
             for (int j = 0; j < getNumberColumn(); ++j) {
                 sumComponentsRow += rows[i].getComponent(j) * vector.getComponent(j);
             }
@@ -171,4 +176,43 @@ public class Matrix {
         return result;
     }
 
+    //Сложение матрицы
+    public Matrix add(Matrix matrix) {
+        for (int i = 0; i < getNumberRows(); ++i) {
+            this.rows[i].add(matrix.rows[i]);
+        }
+        return this;
+    }
+
+    //Разность матриц
+    public Matrix getDifference(Matrix matrix) {
+        for (int i = 0; i < getNumberRows(); ++i) {
+            this.rows[i].getDifference(matrix.rows[i]);
+        }
+        return this;
+    }
+
+    //Static Сложение матрицы
+    public static Matrix add(Matrix matrix1, Matrix matrix2) {
+        Matrix matrix1Copy = new Matrix(matrix1);
+        return matrix1Copy.add(matrix2);
+    }
+
+    //Static Разность матриц
+    public static Matrix getDifference(Matrix matrix1, Matrix matrix2) {
+        Matrix matrix1Copy = new Matrix(matrix1);
+        return matrix1Copy.getDifference(matrix2);
+    }
+
+    //Static Умножение матриц
+    public static Matrix multiplyMatrix(Matrix matrix1, Matrix matrix2) {
+        if (matrix1.getNumberColumn() != matrix2.getNumberRows()) {
+            throw new IllegalArgumentException("Размерность вектора должна совпадать с количеством столбцов матрицы");
+        }
+        Vector[] result = new Vector[(matrix1.getNumberRows())];
+        for (int i = 0; i < matrix1.getNumberRows(); ++i) {
+            result[i] = matrix1.multiplyVector(matrix2.getColumn(i));
+        }
+        return new Matrix(result).transpose();
+    }
 }

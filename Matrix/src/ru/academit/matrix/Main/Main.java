@@ -35,11 +35,20 @@ public class Main {
 
         System.out.println("Умножить на скаляр: " + matrix5.multiplyScalar(2));
 
-        double[][] array11 = {{4, 0, 0, 3}, {4, 0, 2, 1}, {0, 0, 1, 0}, {0, 0, 3, 2}};
+        double[][] array11 = {{4, 1, 1, 3}, {3, 1, 2, 1}, {0, 0, 1, 0}, {0, 0, 3, 2}};
         Matrix matrix22 = new Matrix(array11);
         System.out.println("Определитель = " + matrix22.calculateDeterminate());
 
         System.out.println(matrix3);
         System.out.println(matrix3.multiplyVector(new Vector(new double[] {1, 2, 3, 5})));
+
+        double[][] arrayAdd1 = {{1, 3, 1}, {2, 1, 5}, {0, 1, 1}};
+        Matrix matrixAdd1 = new Matrix(arrayAdd1);
+        double[][] arrayAdd2 = {{5, 3, 1}, {1, 1, 5}, {0, 1, 1}};
+        Matrix matrixAdd2 = new Matrix(arrayAdd2);
+        System.out.println(Matrix.add(matrixAdd1, matrixAdd2));
+        System.out.println(matrixAdd1.getDifference(matrixAdd2));
+        System.out.println(matrixAdd1.multiplyVector(new Vector(new double[]{5, 1, 0})));
+        System.out.println("Умножение матриц: " + Matrix.multiplyMatrix(matrixAdd1, matrixAdd2));
     }
 }
