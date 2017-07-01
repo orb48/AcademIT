@@ -128,7 +128,6 @@ public class Matrix {
     //Посчитать определитель
     public double calculateDeterminate() {
         Matrix matrix = new Matrix(this);
-        double determinate = 1;
         if (matrix.getNumberRows() != matrix.getNumberColumn()) {
             throw new IllegalArgumentException("Определителя не существует");
         }
@@ -151,6 +150,7 @@ public class Matrix {
                 return 0;
             }
         }
+        double determinate = 1;
         for (int i = 0; i < matrix.getNumberColumn(); ++i) {
             determinate *= matrix.rows[i].getComponent(i);
         }
@@ -178,6 +178,9 @@ public class Matrix {
 
     //Сложение матрицы
     public Matrix add(Matrix matrix) {
+        if (this.getNumberRows() != matrix.getNumberRows() || this.getNumberColumn() != matrix.getNumberColumn()) {
+            throw new IllegalArgumentException("Матрицы имеют разные размерности");
+        }
         for (int i = 0; i < getNumberRows(); ++i) {
             this.rows[i].add(matrix.rows[i]);
         }
@@ -186,6 +189,9 @@ public class Matrix {
 
     //Разность матриц
     public Matrix getDifference(Matrix matrix) {
+        if (this.getNumberRows() != matrix.getNumberRows() || this.getNumberColumn() != matrix.getNumberColumn()) {
+            throw new IllegalArgumentException("Матрицы имеют разные размерности");
+        }
         for (int i = 0; i < getNumberRows(); ++i) {
             this.rows[i].getDifference(matrix.rows[i]);
         }
