@@ -23,7 +23,6 @@ public class Main {
         Matrix matrix4 = new Matrix(matrix3);
         System.out.println(matrix3);
         System.out.println("Матрица4 = " + matrix4);
-        System.out.println("Размерность матрицы4 = " + matrix4.getSize());
 
         matrix4.setRow(2, new Vector(new double[]{0, 1, 1, 2}));
         System.out.println("Вектор строка матрицы4 по индексу 2 = " + matrix4.getRow(2));
@@ -32,8 +31,12 @@ public class Main {
 
         double[][] array1 = {{7, 3}, {0, 2}, {4, 1}};
         Matrix matrix5 = new Matrix(array1);
-        System.out.println(matrix5.transposeMatrix());
+        System.out.println(matrix5.transpose());
 
         System.out.println("Умножить на скаляр: " + matrix5.multiplyScalar(2));
+
+        double[][] array11 = {{4, 1, 0, 3}, {4, 0, 2, 1}, {1, 0, 0, 7}, {0, 1, 3, 2}};
+        Matrix matrix22 = new Matrix(array11);
+        System.out.println("Определитель = " + matrix22.calculateDeterminate());
     }
 }
