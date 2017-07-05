@@ -2,20 +2,19 @@ package ru.academit.list.SinglyLinkedList;
 
 public class SinglyLinkedList<T> {
     private ListItem<T> head;
+    private int length;
 
     public SinglyLinkedList() {
         head = null;
+        length = 0;
     }
 
     public SinglyLinkedList(T data) {
         head = new ListItem<T>(data);
+        length = 1;
     }
 
     public int getLength() {
-        int length = 0;
-        for (ListItem<T> p = head; p != null; p = p.getNext()) {
-            ++length;
-        }
         return length;
     }
 
@@ -36,7 +35,7 @@ public class SinglyLinkedList<T> {
 
     public ListItem<T> getNodeAtIndex(int index) {
         if (index < 0 || index >= getLength()) {
-            throw new IllegalArgumentException("Элемента с таким индексом нет");
+            throw new IllegalArgumentException("Индекс выходит за пределы списка");
         }
         int i = 0;
         ListItem<T> p;
@@ -52,6 +51,7 @@ public class SinglyLinkedList<T> {
         ListItem<T> p = new ListItem<>(data);
         p.setNext(head);
         head = p;
+        ++length;
     }
 
     public void insert(int index, T data) {
@@ -66,25 +66,30 @@ public class SinglyLinkedList<T> {
         ListItem<T> q = new ListItem<>(data);
         q.setNext(p.getNext());
         p.setNext(q);
+        ++length;
     }
 
     public void insertAfterNode(ListItem<T> node, T data) {
         if (node == null) {
             insertToBegin(data);
-        }
-        if (node.getNext() == null) {
+        } else if (node.getNext() == null) {
             ListItem<T> p = new ListItem<T>(data);
             node.setNext(p);
-            return;
+        } else {
+            ListItem<T> p = new ListItem<>(data);
+            p.setNext(node.getNext());
+            node.setNext(p);
         }
-        ListItem<T> p = new ListItem<>(data);
-        p.setNext(node.getNext());
-        node.setNext(p);
+        ++length;
     }
 
     public T deleteHead() {
+        if (head == null) {
+            throw new IllegalArgumentException("Список пуст");
+        }
         T headData = head.getData();
         head = head.getNext();
+        --length;
         return headData;
     }
 
@@ -99,23 +104,31 @@ public class SinglyLinkedList<T> {
         T deleteData = p.getNext().getData();
         ListItem<T> q = p.getNext();
         p.setNext(q.getNext());
+        --length;
         return deleteData;
     }
 
-    public T deleteAtData(T data) {
+    public boolean delete(T data) {
         ListItem<T> p;
         boolean research = false;
-        int i = 0;
-        for (p = head; p != null; p = p.getNext(), ++i) {
-            if (p.getData() == data) {
+        if (head.getData() == data) {
+            deleteHead();
+            research = true;
+            return true;
+        }
+        for (p = head; p.getNext() != null; p = p.getNext()) {
+            if (p.getNext().getData() == data) {
+                p.setNext(p.getNext().getNext());
                 research = true;
-                break;
+                return true;
             }
         }
         if (!research) {
-            throw new IllegalArgumentException("Элемента с таким значением нет");
+            throw new IllegalArgumentException("Элемента с таким значением нет в списке");
         }
-        return deleteAtIndex(i);
+        --length;
+        return false;
+
     }
 
     public void deleteAfterNode(ListItem<T> node) {
@@ -123,12 +136,10 @@ public class SinglyLinkedList<T> {
             throw new IllegalArgumentException("Нет элемента, после указанного");
         }
         node.setNext(node.getNext().getNext());
+        --length;
     }
 
     public void reverse() {
-        if (getLength() == 0) {
-            throw new IllegalArgumentException("Список пуст");
-        }
         if (getLength() == 1) {
             return;
         }
@@ -141,6 +152,18 @@ public class SinglyLinkedList<T> {
         }
         head.setNext(null);
         head = p;
+    }
+
+    public SinglyLinkedList<T> copy() {
+        if (length == 0) {
+            return new SinglyLinkedList<T>();
+        }
+        SinglyLinkedList<T> list = new SinglyLinkedList<T>();
+        for (ListItem<T> p = head; p != null; p = p.getNext()) {
+            list.insertToBegin(p.getData());
+        }
+        list.reverse();
+        return list;
     }
 
     @Override
