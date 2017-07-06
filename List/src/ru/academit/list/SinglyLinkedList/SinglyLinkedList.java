@@ -1,5 +1,7 @@
 package ru.academit.list.SinglyLinkedList;
 
+import java.util.NoSuchElementException;
+
 public class SinglyLinkedList<T> {
     private ListItem<T> head;
     private int length;
@@ -35,7 +37,7 @@ public class SinglyLinkedList<T> {
 
     public ListItem<T> getNodeAtIndex(int index) {
         if (index < 0 || index >= getLength()) {
-            throw new IllegalArgumentException("Индекс выходит за пределы списка");
+            throw new IndexOutOfBoundsException("Индекс выходит за пределы списка");
         }
         int i = 0;
         ListItem<T> p;
@@ -54,13 +56,24 @@ public class SinglyLinkedList<T> {
         ++length;
     }
 
+    public void insertToEnd(T data) {
+        ListItem<T> p = getNodeAtIndex(getLength() - 1);
+        ListItem<T> q = new ListItem<T>(data);
+        p.setNext(q);
+        ++length;
+    }
+
     public void insert(int index, T data) {
         if (index == 0) {
             insertToBegin(data);
             return;
         }
-        if (index < 0 || index >= getLength()) {
-            throw new IllegalArgumentException("Элемента с таким индексом нет");
+        if (index == getLength()) {
+            insertToEnd(data);
+            return;
+        }
+        if (index < 0 || index > getLength()) {
+            throw new IndexOutOfBoundsException("Элемента с таким индексом нет");
         }
         ListItem<T> p = getNodeAtIndex(index - 1);
         ListItem<T> q = new ListItem<>(data);
@@ -85,7 +98,7 @@ public class SinglyLinkedList<T> {
 
     public T deleteHead() {
         if (head == null) {
-            throw new IllegalArgumentException("Список пуст");
+            throw new NoSuchElementException("Список пуст");
         }
         T headData = head.getData();
         head = head.getNext();
@@ -98,7 +111,7 @@ public class SinglyLinkedList<T> {
             return deleteHead();
         }
         if (index < 0 || index >= getLength()) {
-            throw new IllegalArgumentException("Элемента с таким индексом нет");
+            throw new NoSuchElementException("Элемента с таким индексом нет");
         }
         ListItem<T> p = getNodeAtIndex(index - 1);
         T deleteData = p.getNext().getData();
@@ -110,30 +123,24 @@ public class SinglyLinkedList<T> {
 
     public boolean delete(T data) {
         ListItem<T> p;
-        boolean research = false;
         if (head.getData() == data) {
             deleteHead();
-            research = true;
+            --length;
             return true;
         }
         for (p = head; p.getNext() != null; p = p.getNext()) {
             if (p.getNext().getData() == data) {
                 p.setNext(p.getNext().getNext());
-                research = true;
+                --length;
                 return true;
             }
         }
-        if (!research) {
-            throw new IllegalArgumentException("Элемента с таким значением нет в списке");
-        }
-        --length;
         return false;
-
     }
 
     public void deleteAfterNode(ListItem<T> node) {
         if (node.getNext() == null) {
-            throw new IllegalArgumentException("Нет элемента, после указанного");
+            throw new NoSuchElementException("Нет элемента, после указанного");
         }
         node.setNext(node.getNext().getNext());
         --length;
@@ -158,11 +165,13 @@ public class SinglyLinkedList<T> {
         if (length == 0) {
             return new SinglyLinkedList<T>();
         }
-        SinglyLinkedList<T> list = new SinglyLinkedList<T>();
-        for (ListItem<T> p = head; p != null; p = p.getNext()) {
-            list.insertToBegin(p.getData());
+        SinglyLinkedList<T> list = new SinglyLinkedList<>(head.getData());
+        ListItem<T> listHead = list.getHead();
+        for (ListItem<T> p = head.getNext(); p != null; p = p.getNext()) {
+            ListItem<T> item = new ListItem<>(p.getData());
+            listHead.setNext(item);
+            listHead = item;
         }
-        list.reverse();
         return list;
     }
 
