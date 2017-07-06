@@ -15,7 +15,13 @@ public class Main {
         System.out.println(list);
         SinglyLinkedList<Integer> listCopy = list.copy();
         System.out.println(listCopy);
+        list.delete(2);
+        System.out.println(list.getLength());
 
+        SinglyLinkedList<Integer> listList = new SinglyLinkedList<>();
+        listList.insertToEnd(1);
+        System.out.println(listList);
+/*
         list.insert(0, 1000);
         list.insert(0, 101);
         list.insert(1, 196);
@@ -29,6 +35,6 @@ public class Main {
         list.deleteAfterNode(list.getNodeAtIndex(1));
         System.out.println(list);
         list.reverse();
-        System.out.println(list);
+        System.out.println(list);*/
     }
 }

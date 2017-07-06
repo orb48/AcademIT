@@ -57,8 +57,12 @@ public class SinglyLinkedList<T> {
     }
 
     public void insertToEnd(T data) {
+        if (length == 0) {
+            insertToBegin(data);
+            return;
+        }
         ListItem<T> p = getNodeAtIndex(getLength() - 1);
-        ListItem<T> q = new ListItem<T>(data);
+        ListItem<T> q = new ListItem<>(data);
         p.setNext(q);
         ++length;
     }
@@ -123,9 +127,8 @@ public class SinglyLinkedList<T> {
 
     public boolean delete(T data) {
         ListItem<T> p;
-        if (head.getData() == data) {
+        if (head.getData().equals(data)) {
             deleteHead();
-            --length;
             return true;
         }
         for (p = head; p.getNext() != null; p = p.getNext()) {
@@ -166,12 +169,13 @@ public class SinglyLinkedList<T> {
             return new SinglyLinkedList<T>();
         }
         SinglyLinkedList<T> list = new SinglyLinkedList<>(head.getData());
-        ListItem<T> listHead = list.getHead();
+        ListItem<T> currentItem = list.getHead();
         for (ListItem<T> p = head.getNext(); p != null; p = p.getNext()) {
             ListItem<T> item = new ListItem<>(p.getData());
-            listHead.setNext(item);
-            listHead = item;
+            currentItem.setNext(item);
+            currentItem = item;
         }
+        list.length = this.getLength();
         return list;
     }
 
