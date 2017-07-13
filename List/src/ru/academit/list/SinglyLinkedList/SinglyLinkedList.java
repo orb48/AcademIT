@@ -1,8 +1,10 @@
 package ru.academit.list.SinglyLinkedList;
 
+import java.util.Objects;
+
 import java.util.NoSuchElementException;
 
-public class SinglyLinkedList<T extends Comparable<T>> {
+public class SinglyLinkedList<T> {
     private ListItem<T> head;
     private int length;
 
@@ -133,12 +135,12 @@ public class SinglyLinkedList<T extends Comparable<T>> {
         if (length == 0) {
             return false;
         }
-        if (head.getData().compareTo(data) == 0) {
+        if (Objects.equals(head.getData(), data)) {
             deleteHead();
             return true;
         }
         for (p = head; p.getNext() != null; p = p.getNext()) {
-            if (p.getNext().getData().compareTo(data) == 0) {
+            if (Objects.equals(p.getNext().getData(), data)) {
                 p.setNext(p.getNext().getNext());
                 --length;
                 return true;
