@@ -14,7 +14,7 @@ public class SinglyLinkedList<T> {
     }
 
     public SinglyLinkedList(T data) {
-        head = new ListItem<T>(data);
+        head = new ListItem<>(data);
         length = 1;
     }
 
@@ -92,7 +92,7 @@ public class SinglyLinkedList<T> {
         if (node == null) {
             insertToBegin(data);
         } else if (node.getNext() == null) {
-            ListItem<T> p = new ListItem<T>(data);
+            ListItem<T> p = new ListItem<>(data);
             node.setNext(p);
         } else {
             ListItem<T> p = new ListItem<>(data);
@@ -177,7 +177,7 @@ public class SinglyLinkedList<T> {
 
     public SinglyLinkedList<T> copy() {
         if (length == 0) {
-            return new SinglyLinkedList<T>();
+            return new SinglyLinkedList<>();
         }
         SinglyLinkedList<T> list = new SinglyLinkedList<>(head.getData());
         ListItem<T> currentItem = list.getHead();
