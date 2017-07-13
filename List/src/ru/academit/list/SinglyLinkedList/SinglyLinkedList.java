@@ -2,7 +2,7 @@ package ru.academit.list.SinglyLinkedList;
 
 import java.util.NoSuchElementException;
 
-public class SinglyLinkedList<T> {
+public class SinglyLinkedList<T extends Comparable<T>> {
     private ListItem<T> head;
     private int length;
 
@@ -111,6 +111,9 @@ public class SinglyLinkedList<T> {
     }
 
     public T deleteAtIndex(int index) {
+        if (head == null) {
+            throw new NoSuchElementException("Список пуст");
+        }
         if (index == 0) {
             return deleteHead();
         }
@@ -127,15 +130,15 @@ public class SinglyLinkedList<T> {
 
     public boolean delete(T data) {
         ListItem<T> p;
-        if (data == null) {
+        if (length == 0) {
             return false;
         }
-        if (head.getData().equals(data)) {
+        if (head.getData().compareTo(data) == 0) {
             deleteHead();
             return true;
         }
         for (p = head; p.getNext() != null; p = p.getNext()) {
-            if (p.getNext().getData() == data) {
+            if (p.getNext().getData().compareTo(data) == 0) {
                 p.setNext(p.getNext().getNext());
                 --length;
                 return true;
@@ -145,6 +148,9 @@ public class SinglyLinkedList<T> {
     }
 
     public void deleteAfterNode(ListItem<T> node) {
+        if (length == 0) {
+            return;
+        }
         if (node.getNext() == null) {
             throw new NoSuchElementException("Нет элемента, после указанного");
         }
