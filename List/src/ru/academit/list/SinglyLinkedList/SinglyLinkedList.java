@@ -127,6 +127,9 @@ public class SinglyLinkedList<T> {
 
     public boolean delete(T data) {
         ListItem<T> p;
+        if (data == null) {
+            return false;
+        }
         if (head.getData().equals(data)) {
             deleteHead();
             return true;

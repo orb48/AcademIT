@@ -15,8 +15,8 @@ public class Main {
         System.out.println(list);
         SinglyLinkedList<Integer> listCopy = list.copy();
         System.out.println(listCopy);
-        list.delete(2);
-        System.out.println(list.getLength());
+        list.delete(21);
+        System.out.println(list);
 
         SinglyLinkedList<Integer> listList = new SinglyLinkedList<>();
         listList.insertToEnd(1);
