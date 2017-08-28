@@ -4,7 +4,11 @@ package ru.academit.sort;
 import java.util.ArrayList;
 import java.util.Comparator;
 
-public class SortInsertion{
+public class SortInsertion {
+
+    private SortInsertion() {
+
+    }
 
     public static <T> void sortInsertionAscending(ArrayList<T> array, Comparator<T> tComparator) {
 
