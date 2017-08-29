@@ -4,13 +4,13 @@ package ru.academit.sort;
 import java.util.ArrayList;
 import java.util.Comparator;
 
-public class SortInsertion {
+class SortInsertion {
 
     private SortInsertion() {
 
     }
 
-    public static <T> void sortInsertionAscending(ArrayList<T> array, Comparator<T> tComparator) {
+    static <T> void sortInsertionAscending(ArrayList<T> array, Comparator<T> tComparator) {
 
         for (int i = 1; i < array.size(); ++i) {
             T temp = array.get(i);

@@ -2,15 +2,12 @@ package ru.academit.sort;
 
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
+import java.util.Comparator;
 
 public class Main {
 
-    enum TypeData {
-        INTEGER, STRING;
-    }
-
-    public static ArrayList<Integer> convertToInteger(ArrayList<String> list) {
-        ArrayList<Integer> listInteger = new ArrayList<>();
+    private static ArrayList<Integer> convertToInteger(ArrayList<String> list) {
+        ArrayList<Integer> listInteger = new ArrayList<>(100);
         for (String e : list) {
             try {
                 listInteger.add(Integer.parseInt(e));
@@ -25,12 +22,12 @@ public class Main {
 
         String help = "Введите 4 аргумента:" + System.lineSeparator() + "Первый аргумент: имя файла с входными данными" + System.lineSeparator()
                 + "Второй аргумент: имя файла для записи результаты программы" + System.lineSeparator()
-                + "Третий аргумент: i - входной файл содержит числа типа Integer, s - файл содержит строки String" + System.lineSeparator()
-                + "Четвертый аргумент: a - отсортировать по возрастанию, d - отсортировать по убыванию";
+                + "Третий аргумент: -i - входной файл содержит числа типа Integer, -s - файл содержит строки String" + System.lineSeparator()
+                + "Четвертый аргумент: -a - отсортировать по возрастанию, -d - отсортировать по убыванию";
 
         if (args.length != 4) {
             System.out.println("Неверное количество аргументов");
-            System.out.println("help для справки" + System.lineSeparator() + help);
+            System.out.println("-help для справки" + System.lineSeparator() + help);
             return;
         }
 
@@ -39,56 +36,51 @@ public class Main {
         String typeDataFile = args[2];
         String typeSort = args[3];
 
-        if (inputFile.equals("help")) {
+        if (inputFile.equals("-help")) {
             System.out.println(help);
             return;
         }
 
         try {
-            ArrayList<String> list = FileOperations.readerFile(inputFile);
-
             TypeData type;
             switch (typeDataFile) {
-                case "i":
+                case "-i":
                     type = TypeData.INTEGER;
                     break;
-                case "s":
+                case "-s":
                     type = TypeData.STRING;
                     break;
                 default:
-                    System.out.println("Неверно задан 3 аргумент" + System.lineSeparator() + "Введите 3 аргумент: i - входной файл содержит числа типа Integer, s - файл содержит строки String");
+                    System.out.println("Неверно задан 3 аргумент");
+                    System.out.println("Введите 3 аргумент: i - входной файл содержит числа типа Integer, s - файл содержит строки String");
                     return;
             }
 
             boolean ascending;
             switch (typeSort) {
-                case "a":
+                case "-a":
                     ascending = true;
                     break;
-                case "d":
+                case "-d":
                     ascending = false;
                     break;
                 default:
-                    System.out.println("Неверно задан 4 аргумент для сортировки" + System.lineSeparator() + "Введите 4 аргумент: a - отсортировать по возрастанию, d - отсортировать по убыванию");
+                    System.out.println("Неверно задан 4 аргумент для сортировки");
+                    System.out.println("Введите 4 аргумент: a - отсортировать по возрастанию, d - отсортировать по убыванию");
                     return;
             }
 
+            ArrayList<String> list = FileOperations.readFile(inputFile);
             if (type == TypeData.INTEGER) {
                 ArrayList<Integer> listInt = convertToInteger(list);
-                if (ascending) {
-                    SortInsertion.sortInsertionAscending(listInt, new ComparatorInteger());
-                } else {
-                    SortInsertion.sortInsertionAscending(listInt, new ComparatorInteger().reversed());
-                }
-                FileOperations.writerFile(listInt, outputFile);
+                Comparator<Integer> comparator = (ascending) ? new ComparatorInteger() : new ComparatorInteger().reversed();
+                SortInsertion.sortInsertionAscending(listInt, comparator);
+                FileOperations.writeFile(listInt, outputFile);
                 System.out.println(listInt);
             } else {
-                if (ascending) {
-                    SortInsertion.sortInsertionAscending(list, new ComparatorString());
-                } else {
-                    SortInsertion.sortInsertionAscending(list, new ComparatorString().reversed());
-                }
-                FileOperations.writerFile(list, outputFile);
+                Comparator<String> comparator = (ascending) ? new ComparatorString() : new ComparatorString().reversed();
+                SortInsertion.sortInsertionAscending(list, comparator);
+                FileOperations.writeFile(list, outputFile);
                 System.out.println(list);
             }
         } catch (FileNotFoundException e) {
